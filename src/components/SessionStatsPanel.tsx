@@ -3,12 +3,12 @@
 import { Statistics } from '@/types/game'
 import { calculateWinPercentage } from '@/lib/game'
 
-interface GlobalStatsPanelProps {
+interface SessionStatsPanelProps {
   stats: Statistics
   isConnected: boolean
 }
 
-export default function GlobalStatsPanel({ stats, isConnected }: GlobalStatsPanelProps) {
+export default function SessionStatsPanel({ stats, isConnected }: SessionStatsPanelProps) {
   const stayWinRate = calculateWinPercentage(stats.stayWins, stats.stayTotal)
   const switchWinRate = calculateWinPercentage(stats.switchWins, stats.switchTotal)
   const overallWinRate = calculateWinPercentage(
@@ -20,12 +20,12 @@ export default function GlobalStatsPanel({ stats, isConnected }: GlobalStatsPane
     <div className="bg-white rounded-xl shadow-2xl p-6 mt-8">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-gray-800">
-          Global Statistics (All Players)
+          Session Statistics
         </h2>
         <div className="flex items-center">
-          <div className={`w-3 h-3 rounded-full mr-2 ${isConnected ? 'bg-green-500' : 'bg-gray-400'}`}></div>
+          <div className="w-3 h-3 rounded-full mr-2 bg-blue-500"></div>
           <span className="text-sm text-gray-600">
-            {isConnected ? 'Live' : 'Local Only'}
+            Current Session
           </span>
         </div>
       </div>
@@ -69,19 +69,19 @@ export default function GlobalStatsPanel({ stats, isConnected }: GlobalStatsPane
         </div>
       </div>
 
-      {stats.totalGames === 0 && !isConnected && (
+      {stats.totalGames === 0 && (
         <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-          <h4 className="font-semibold text-gray-700 mb-2">Global Statistics:</h4>
+          <h4 className="font-semibold text-gray-700 mb-2">Session Statistics:</h4>
           <p className="text-sm text-gray-600">
-            Global statistics are currently showing local data only. In development mode with WebSocket server running, 
-            this would display live statistics from all players across sessions.
+            These statistics track your performance during this session. Play some games to see how 
+            the stay vs switch strategies compare!
           </p>
         </div>
       )}
 
-      {stats.totalGames >= 100 && (
+      {stats.totalGames >= 10 && (
         <div className="mt-6 p-4 bg-gradient-to-r from-illinois-blue/10 to-illinois-orange/10 rounded-lg">
-          <h4 className="font-semibold text-illinois-blue mb-2">Live Global Results:</h4>
+          <h4 className="font-semibold text-illinois-blue mb-2">Session Results:</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
               <strong>Switch Advantage:</strong> {Math.abs(switchWinRate - stayWinRate).toFixed(1)}% higher win rate
