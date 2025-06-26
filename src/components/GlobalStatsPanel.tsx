@@ -23,9 +23,9 @@ export default function GlobalStatsPanel({ stats, isConnected }: GlobalStatsPane
           Global Statistics (All Players)
         </h2>
         <div className="flex items-center">
-          <div className={`w-3 h-3 rounded-full mr-2 ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
+          <div className={`w-3 h-3 rounded-full mr-2 ${isConnected ? 'bg-green-500' : 'bg-gray-400'}`}></div>
           <span className="text-sm text-gray-600">
-            {isConnected ? 'Live' : 'Disconnected'}
+            {isConnected ? 'Live' : 'Local Only'}
           </span>
         </div>
       </div>
@@ -68,6 +68,16 @@ export default function GlobalStatsPanel({ stats, isConnected }: GlobalStatsPane
           </div>
         </div>
       </div>
+
+      {stats.totalGames === 0 && !isConnected && (
+        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+          <h4 className="font-semibold text-gray-700 mb-2">Global Statistics:</h4>
+          <p className="text-sm text-gray-600">
+            Global statistics are currently showing local data only. In development mode with WebSocket server running, 
+            this would display live statistics from all players across sessions.
+          </p>
+        </div>
+      )}
 
       {stats.totalGames >= 100 && (
         <div className="mt-6 p-4 bg-gradient-to-r from-illinois-blue/10 to-illinois-orange/10 rounded-lg">

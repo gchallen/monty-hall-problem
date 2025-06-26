@@ -16,26 +16,35 @@ export function useWebSocket() {
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
-    const socketInstance = io(process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '')
+    // Only try to connect WebSocket in development
+    if (process.env.NODE_ENV === 'development') {
+      try {
+        const socketInstance = io('http://localhost:3000')
 
-    socketInstance.on('connect', () => {
-      console.log('Connected to WebSocket server')
-      setIsConnected(true)
-    })
+        socketInstance.on('connect', () => {
+          console.log('Connected to WebSocket server')
+          setIsConnected(true)
+        })
 
-    socketInstance.on('disconnect', () => {
-      console.log('Disconnected from WebSocket server')
-      setIsConnected(false)
-    })
+        socketInstance.on('disconnect', () => {
+          console.log('Disconnected from WebSocket server')
+          setIsConnected(false)
+        })
 
-    socketInstance.on('stats-update', (stats: Statistics) => {
-      setGlobalStats(stats)
-    })
+        socketInstance.on('stats-update', (stats: Statistics) => {
+          setGlobalStats(stats)
+        })
 
-    setSocket(socketInstance)
+        setSocket(socketInstance)
 
-    return () => {
-      socketInstance.disconnect()
+        return () => {
+          socketInstance.disconnect()
+        }
+      } catch (error) {
+        console.log('WebSocket not available, using local stats only')
+      }
+    } else {
+      console.log('WebSocket disabled in production, using local stats only')
     }
   }, [])
 

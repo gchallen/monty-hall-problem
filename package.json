@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "node server.js",
+    "dev:next": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "next start",
+    "start:custom": "NODE_ENV=production node server.js",
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch"
