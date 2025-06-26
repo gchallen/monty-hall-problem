@@ -6,7 +6,7 @@ import { createNewGame, makeInitialChoice, makeFinalChoice, generateGameResult }
 import { useWebSocket } from '@/lib/websocket-client'
 import Door from './Door'
 import StatsPanel from './StatsPanel'
-import SessionStatsPanel from './SessionStatsPanel'
+import GlobalStatsPanel from './GlobalStatsPanel'
 
 export default function GameBoard() {
   const [gameState, setGameState] = useState<GameState>(createNewGame())
@@ -150,7 +150,7 @@ export default function GameBoard() {
         </div>
 
         <StatsPanel stats={stats} />
-        <SessionStatsPanel stats={globalStats} isConnected={isConnected} />
+        <GlobalStatsPanel stats={globalStats} isConnected={isConnected} />
       </div>
     </div>
   )

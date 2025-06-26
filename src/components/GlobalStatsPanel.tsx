@@ -3,12 +3,12 @@
 import { Statistics } from '@/types/game'
 import { calculateWinPercentage } from '@/lib/game'
 
-interface SessionStatsPanelProps {
+interface GlobalStatsPanelProps {
   stats: Statistics
   isConnected: boolean
 }
 
-export default function SessionStatsPanel({ stats, isConnected }: SessionStatsPanelProps) {
+export default function GlobalStatsPanel({ stats, isConnected }: GlobalStatsPanelProps) {
   const stayWinRate = calculateWinPercentage(stats.stayWins, stats.stayTotal)
   const switchWinRate = calculateWinPercentage(stats.switchWins, stats.switchTotal)
   const overallWinRate = calculateWinPercentage(
@@ -20,12 +20,12 @@ export default function SessionStatsPanel({ stats, isConnected }: SessionStatsPa
     <div className="bg-white rounded-xl shadow-2xl p-6 mt-8">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-gray-800">
-          Session Statistics
+          Global Statistics (All Players)
         </h2>
         <div className="flex items-center">
-          <div className="w-3 h-3 rounded-full mr-2 bg-blue-500"></div>
+          <div className={`w-3 h-3 rounded-full mr-2 ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
           <span className="text-sm text-gray-600">
-            Current Session
+            {isConnected ? 'Live' : 'Disconnected'}
           </span>
         </div>
       </div>
@@ -71,17 +71,17 @@ export default function SessionStatsPanel({ stats, isConnected }: SessionStatsPa
 
       {stats.totalGames === 0 && (
         <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-          <h4 className="font-semibold text-gray-700 mb-2">Session Statistics:</h4>
+          <h4 className="font-semibold text-gray-700 mb-2">Global Statistics:</h4>
           <p className="text-sm text-gray-600">
-            These statistics track your performance during this session. Play some games to see how 
-            the stay vs switch strategies compare!
+            These statistics show results from all players across all sessions. Play some games to contribute 
+            to the global data and see how the stay vs switch strategies compare!
           </p>
         </div>
       )}
 
-      {stats.totalGames >= 10 && (
+      {stats.totalGames >= 100 && (
         <div className="mt-6 p-4 bg-gradient-to-r from-illinois-blue/10 to-illinois-orange/10 rounded-lg">
-          <h4 className="font-semibold text-illinois-blue mb-2">Session Results:</h4>
+          <h4 className="font-semibold text-illinois-blue mb-2">Live Global Results:</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
               <strong>Switch Advantage:</strong> {Math.abs(switchWinRate - stayWinRate).toFixed(1)}% higher win rate

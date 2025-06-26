@@ -2,30 +2,38 @@
 
 An interactive web-based simulation of the classic Monty Hall problem with a college acceptance theme. Choose between staying with your original choice or switching doors to see if you get accepted to the University of Illinois!
 
+## Architecture
+
+This application uses a separated frontend and backend architecture:
+
+- **Frontend**: Next.js with React and Tailwind CSS (deployed on Vercel)
+- **Backend**: Koa.js with Socket.IO and MongoDB (deployed on Fly.io)
+
 ## Features
 
 - 🎓 Interactive game with Illinois/Purdue college acceptance theme
-- 📊 Real-time statistics showing win rates for stay vs switch strategies
-- 🌐 WebSocket integration for live global statistics across all players
+- 📊 Real-time global statistics across all players via WebSocket
+- 🌐 Separate backend API with MongoDB persistence
 - 🎨 Beautiful, responsive UI built with React, Next.js, and Tailwind CSS
 - 🔍 Runtime type checking with Zod
 - 🧪 Comprehensive unit tests
 - 📱 Mobile-friendly design
-- 🗄️ Optional MongoDB integration for data persistence
+- 🐳 Docker containerized backend
+- ☁️ Cloud deployment ready (Vercel + Fly.io)
 
-## Getting Started
+## Local Development
 
 ### Prerequisites
 
-- Node.js 18+ 
-- npm or yarn
+- Node.js 18+
+- Docker (for backend)
+- MongoDB (optional, for persistence)
 
-### Installation
+### Backend Setup
 
-1. Clone the repository:
+1. Navigate to the backend directory:
 ```bash
-git clone <repository-url>
-cd monty-hall-problem
+cd backend
 ```
 
 2. Install dependencies:
@@ -33,18 +41,141 @@ cd monty-hall-problem
 npm install
 ```
 
-3. (Optional) Set up MongoDB:
+3. Set up environment variables:
 ```bash
-cp .env.example .env.local
-# Edit .env.local with your MongoDB connection string
+cp .env.example .env
+# Edit .env with your configuration
 ```
 
-4. Start the development server:
+4. Start the backend server:
 ```bash
 npm run dev
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+The backend will be available at http://localhost:8080
+
+### Frontend Setup
+
+1. Navigate to the root directory:
+```bash
+cd ..
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Set up environment variables:
+```bash
+cp .env.example .env.local
+# Edit .env.local with your configuration
+```
+
+4. Start the frontend development server:
+```bash
+npm run dev
+```
+
+The frontend will be available at http://localhost:3000
+
+## Deployment
+
+### Backend Deployment (Fly.io)
+
+1. Install the Fly CLI:
+```bash
+curl -L https://fly.io/install.sh | sh
+```
+
+2. Authenticate with Fly:
+```bash
+fly auth login
+```
+
+3. Deploy the application:
+```bash
+fly deploy
+```
+
+4. Set environment variables:
+```bash
+fly secrets set MONGODB_URI="your-mongodb-connection-string"
+fly secrets set FRONTEND_URL="https://your-frontend-domain.vercel.app"
+```
+
+### Frontend Deployment (Vercel)
+
+1. Install Vercel CLI:
+```bash
+npm i -g vercel
+```
+
+2. Deploy:
+```bash
+vercel --prod
+```
+
+3. Set environment variables in Vercel dashboard:
+   - `NEXT_PUBLIC_BACKEND_URL`: Your Fly.io backend URL
+
+## Environment Variables
+
+### Frontend (.env.local)
+```env
+NEXT_PUBLIC_BACKEND_URL=http://localhost:8080
+```
+
+### Backend (.env)
+```env
+PORT=8080
+NODE_ENV=development
+FRONTEND_URL=http://localhost:3000
+MONGODB_URI=mongodb://localhost:27017/monty-hall
+```
+
+## API Endpoints
+
+### Backend API
+
+- `GET /health` - Health check
+- `GET /api/stats` - Get current global statistics
+- `POST /api/game-result` - Submit a game result
+- `POST /api/reset-stats` - Reset all statistics (development only)
+
+### WebSocket Events
+
+- `stats-update` - Broadcast updated statistics to all clients
+- `game-result` - Receive game result from client
+
+## Docker
+
+### Build Backend Image
+```bash
+cd backend
+docker build -t monty-hall-backend .
+```
+
+### Run Backend Container
+```bash
+docker run -p 8080:8080 \
+  -e MONGODB_URI="your-connection-string" \
+  -e FRONTEND_URL="http://localhost:3000" \
+  monty-hall-backend
+```
+
+## Testing
+
+### Frontend Tests
+```bash
+npm test
+```
+
+### Backend Tests
+```bash
+cd backend
+npm test
+```
 
 ## How to Play
 
@@ -54,7 +185,7 @@ npm run dev
 
 3. **Final Decision**: You can either stay with your original choice or switch to the other unopened door.
 
-4. **See the Results**: Find out if you got accepted to Illinois! The statistics will update to show how each strategy performs over time.
+4. **See the Results**: Find out if you got accepted to Illinois! The statistics will update in real-time to show how each strategy performs across all players.
 
 ## The Mathematics
 
@@ -67,90 +198,30 @@ The key insight is that when you initially choose a door, you have a 1/3 chance 
 
 ## Technology Stack
 
-- **Frontend**: React 18, Next.js 14, TypeScript
-- **Styling**: Tailwind CSS with custom Illinois/Purdue color themes
-- **Real-time**: Socket.IO for WebSocket connections
+### Frontend
+- **Framework**: Next.js 14 with React 18
+- **Styling**: Tailwind CSS with custom Illinois/Purdue themes
+- **TypeScript**: Full type safety
+- **Real-time**: Socket.IO client for live updates
 - **Validation**: Zod for runtime type checking
-- **Database**: MongoDB (optional)
 - **Testing**: Jest, React Testing Library
-- **Deployment**: Vercel-ready configuration
 
-## Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm test` - Run unit tests
-- `npm run test:watch` - Run tests in watch mode
-
-## Project Structure
-
-```
-src/
-├── app/                    # Next.js app directory
-├── components/             # React components
-│   ├── Door.tsx           # Individual door component
-│   ├── GameBoard.tsx      # Main game interface
-│   ├── StatsPanel.tsx     # Local statistics display
-│   └── GlobalStatsPanel.tsx # Global statistics display
-├── lib/                   # Utility libraries
-│   ├── game.ts           # Core game logic
-│   ├── mongodb.ts        # MongoDB integration
-│   ├── websocket-client.ts # WebSocket client hook
-│   └── websocket-server.ts # WebSocket server setup
-├── types/                 # TypeScript type definitions
-│   └── game.ts           # Game-related types
-└── __tests__/            # Test files
-    ├── components/       # Component tests
-    ├── lib/             # Logic tests
-    └── integration/     # Integration tests
-```
-
-## Deployment
-
-### Vercel (Recommended)
-
-1. Install Vercel CLI:
-```bash
-npm i -g vercel
-```
-
-2. Deploy:
-```bash
-vercel
-```
-
-3. (Optional) Set environment variables in Vercel dashboard:
-   - `MONGODB_URI`: Your MongoDB connection string
-
-### Other Platforms
-
-The application can be deployed to any Node.js hosting platform. Make sure to:
-
-1. Run `npm run build` to build the application
-2. Set `NODE_ENV=production`
-3. Start with `npm start`
-
-## Environment Variables
-
-- `MONGODB_URI` (optional): MongoDB connection string for data persistence
-- `NODE_ENV`: Set to 'production' for production builds
+### Backend
+- **Framework**: Koa.js
+- **Real-time**: Socket.IO server
+- **Database**: MongoDB with aggregation pipelines
+- **Validation**: Zod schemas
+- **Containerization**: Docker
+- **Deployment**: Fly.io
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Add tests for new features
-4. Ensure all tests pass: `npm test`
+4. Ensure all tests pass
 5. Submit a pull request
 
 ## License
 
 MIT License - see LICENSE file for details
-
-## Acknowledgments
-
-- The Monty Hall problem was named after Monty Hall, host of "Let's Make a Deal"
-- University of Illinois and Purdue University for the thematic inspiration
-- The probability puzzle demonstrates important concepts in statistics and decision theory

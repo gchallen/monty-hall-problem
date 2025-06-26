@@ -1,9 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { io, Socket } from 'socket.io-client'
 import { GameResult, Statistics } from '@/types/game'
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'
+
 export function useWebSocket() {
+  const [socket, setSocket] = useState<Socket | null>(null)
   const [globalStats, setGlobalStats] = useState<Statistics>({
     totalGames: 0,
     stayWins: 0,
@@ -14,31 +18,77 @@ export function useWebSocket() {
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
-    // WebSocket functionality is disabled for Vercel deployment
-    // In a production environment with WebSocket support, you could:
-    // 1. Use a separate WebSocket server (like Socket.io on a different service)
-    // 2. Use Server-Sent Events with API routes
-    // 3. Use a real-time database like Firebase or Supabase
-    console.log('WebSocket disabled - using local statistics only')
+    console.log('Connecting to backend:', BACKEND_URL)
+    
+    const socketInstance = io(BACKEND_URL, {
+      transports: ['websocket', 'polling']
+    })
+
+    socketInstance.on('connect', () => {
+      console.log('Connected to backend WebSocket server')
+      setIsConnected(true)
+    })
+
+    socketInstance.on('disconnect', () => {
+      console.log('Disconnected from backend WebSocket server')
+      setIsConnected(false)
+    })
+
+    socketInstance.on('connect_error', (error) => {
+      console.error('WebSocket connection error:', error)
+      setIsConnected(false)
+    })
+
+    socketInstance.on('stats-update', (stats: Statistics) => {
+      console.log('Received stats update:', stats)
+      setGlobalStats(stats)
+    })
+
+    setSocket(socketInstance)
+
+    // Load initial stats from API
+    fetchInitialStats()
+
+    return () => {
+      socketInstance.disconnect()
+    }
   }, [])
 
-  const sendGameResult = (result: GameResult) => {
-    // In production, you could send this to an API route instead
-    // For now, we just aggregate local stats
-    setGlobalStats(prevStats => {
-      const newStats = { ...prevStats }
-      newStats.totalGames += 1
-      
-      if (result.strategy === 'stay') {
-        newStats.stayTotal += 1
-        if (result.won) newStats.stayWins += 1
-      } else {
-        newStats.switchTotal += 1
-        if (result.won) newStats.switchWins += 1
+  const fetchInitialStats = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/stats`)
+      if (response.ok) {
+        const stats = await response.json()
+        setGlobalStats(stats)
       }
-      
-      return newStats
-    })
+    } catch (error) {
+      console.error('Error fetching initial stats:', error)
+    }
+  }
+
+  const sendGameResult = async (result: GameResult) => {
+    try {
+      // Send via WebSocket if connected
+      if (socket && isConnected) {
+        socket.emit('game-result', result)
+      } else {
+        // Fallback to HTTP API
+        const response = await fetch(`${BACKEND_URL}/api/game-result`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(result),
+        })
+        
+        if (response.ok) {
+          const data = await response.json()
+          setGlobalStats(data.stats)
+        }
+      }
+    } catch (error) {
+      console.error('Error sending game result:', error)
+    }
   }
 
   return {
