@@ -26,58 +26,44 @@ This application uses a separated frontend and backend architecture:
 ### Prerequisites
 
 - Node.js 18+
-- Docker (for backend)
 - MongoDB (optional, for persistence)
 
-### Backend Setup
+### Quick Start
 
-1. Navigate to the backend directory:
+1. Install all dependencies (frontend + backend):
 ```bash
-cd backend
+npm run install:all
 ```
 
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Set up environment variables:
-```bash
-cp .env.example .env
-# Edit .env with your configuration
-```
-
-4. Start the backend server:
-```bash
-npm run dev
-```
-
-The backend will be available at http://localhost:8080
-
-### Frontend Setup
-
-1. Navigate to the root directory:
-```bash
-cd ..
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Set up environment variables:
+2. Set up environment variables:
 ```bash
 cp .env.example .env.local
-# Edit .env.local with your configuration
+cp backend/.env.example backend/.env
+# Edit files with your configuration
 ```
 
-4. Start the frontend development server:
+3. Start both frontend and backend:
 ```bash
 npm run dev
 ```
 
-The frontend will be available at http://localhost:3000
+This will start:
+- Backend server at http://localhost:8080
+- Frontend at http://localhost:3000
+
+### Individual Services
+
+You can also run services individually:
+
+**Frontend only:**
+```bash
+npm run dev:frontend
+```
+
+**Backend only:**
+```bash
+npm run dev:backend
+```
 
 ## Deployment
 
@@ -164,18 +150,21 @@ docker run -p 8080:8080 \
   monty-hall-backend
 ```
 
-## Testing
+## Available Scripts
 
-### Frontend Tests
-```bash
-npm test
-```
+### Development
+- `npm run dev` - Start both frontend and backend
+- `npm run dev:frontend` - Start frontend only
+- `npm run dev:backend` - Start backend only
+- `npm run install:all` - Install all dependencies
 
-### Backend Tests
-```bash
-cd backend
-npm test
-```
+### Production
+- `npm run build` - Build both frontend and backend
+- `npm run start` - Start both services in production mode
+
+### Testing
+- `npm test` - Run frontend tests
+- `cd backend && npm test` - Run backend tests
 
 ## How to Play
 
