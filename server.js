@@ -171,7 +171,13 @@ app.prepare().then(() => {
       const parsedUrl = parse(req.url, true);
       const { pathname, query } = parsedUrl;
 
-      if (pathname === '/api/stats') {
+      // Handle basePath by removing it from the pathname for routing
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+      const normalizedPathname = basePath && (pathname === basePath || pathname.startsWith(basePath + '/'))
+        ? pathname.slice(basePath.length) 
+        : pathname;
+
+      if (normalizedPathname === '/api/stats') {
         // Get statistics from database or fallback to in-memory
         try {
           const dbStats = await getStatisticsFromDatabase();
@@ -184,7 +190,7 @@ app.prepare().then(() => {
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify(globalStats));
         }
-      } else if (pathname === '/api/game-result' && req.method === 'POST') {
+      } else if (normalizedPathname === '/api/game-result' && req.method === 'POST') {
         // Handle game result submission
         let body = '';
         req.on('data', chunk => {
@@ -238,7 +244,9 @@ app.prepare().then(() => {
   });
 
   // Initialize Socket.IO
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
   const io = new Server(server, {
+    path: basePath ? `${basePath}/socket.io/` : '/socket.io/',
     cors: {
       origin: "*",
       methods: ["GET", "POST"]

@@ -7,6 +7,15 @@ import { GameResult, Statistics } from '@/types/game'
 // Use the same origin for WebSocket connections (local Next.js server with integrated Socket.IO)
 const BACKEND_URL = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'
 
+// Get the base path for socket.io path configuration
+const getSocketPath = () => {
+  if (typeof window !== 'undefined') {
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+    return basePath ? `${basePath}/socket.io/` : '/socket.io/'
+  }
+  return '/socket.io/'
+}
+
 export function useWebSocket() {
   const [socket, setSocket] = useState<Socket | null>(null)
   const [globalStats, setGlobalStats] = useState<Statistics>({
@@ -22,6 +31,7 @@ export function useWebSocket() {
     console.log('Connecting to backend:', BACKEND_URL)
     
     const socketInstance = io(BACKEND_URL, {
+      path: getSocketPath(),
       transports: ['websocket', 'polling']
     })
 
@@ -57,7 +67,8 @@ export function useWebSocket() {
 
   const fetchInitialStats = async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/stats`)
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+      const response = await fetch(`${BACKEND_URL}${basePath}/api/stats`)
       if (response.ok) {
         const stats = await response.json()
         setGlobalStats(stats)
@@ -74,7 +85,8 @@ export function useWebSocket() {
         socket.emit('game-result', result)
       } else {
         // Fallback to HTTP API
-        const response = await fetch(`${BACKEND_URL}/api/game-result`, {
+        const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+        const response = await fetch(`${BACKEND_URL}${basePath}/api/game-result`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

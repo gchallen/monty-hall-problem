@@ -18,7 +18,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build the Next.js application
-RUN npm run build
+RUN NEXT_PUBLIC_BASE_PATH=/monty-hall-problem npm run build
 
 # Production image, copy all the files and run the custom server
 FROM base AS runner
@@ -49,7 +49,7 @@ EXPOSE 3000
 
 # Add health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000/api/stats', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+  CMD node -e "const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''; require('http').get(\`http://localhost:3000\${basePath}/api/stats\`, (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
 
 # Set environment variables
 ENV PORT=3000
