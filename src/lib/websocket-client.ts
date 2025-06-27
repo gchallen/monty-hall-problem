@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 import { io, Socket } from 'socket.io-client'
 import { GameResult, Statistics } from '@/types/game'
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'
+// Use the same origin for WebSocket connections (local Next.js server with integrated Socket.IO)
+const BACKEND_URL = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'
 
 export function useWebSocket() {
   const [socket, setSocket] = useState<Socket | null>(null)

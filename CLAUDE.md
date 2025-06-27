@@ -28,3 +28,4 @@ As the project develops, update this section with:
 ## Git Workflow
 
 - Commit incrementally to Git with descriptive commit messages
+- Commit all changes with a descriptive message after each prompt
