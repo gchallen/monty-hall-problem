@@ -175,8 +175,10 @@ app.prepare().then(() => {
         // Get statistics from database or fallback to in-memory
         try {
           const dbStats = await getStatisticsFromDatabase();
+          // Use database stats if they have data, otherwise use in-memory stats
+          const currentStats = dbStats.totalGames > 0 ? dbStats : globalStats;
           res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify(dbStats));
+          res.end(JSON.stringify(currentStats));
         } catch (error) {
           console.error('Error fetching stats:', error);
           res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -212,8 +214,9 @@ app.prepare().then(() => {
               if (gameResult.won) globalStats.switchWins += 1;
             }
 
-            // Get current stats from database
-            const currentStats = await getStatisticsFromDatabase();
+            // Get current stats from database or use in-memory stats
+            const dbStats = await getStatisticsFromDatabase();
+            const currentStats = dbStats.totalGames > 0 ? dbStats : globalStats;
             
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ success: true, stats: currentStats }));
@@ -247,7 +250,13 @@ app.prepare().then(() => {
     console.log('Client connected:', socket.id);
 
     // Send current statistics when client connects
-    socket.emit('stats-update', globalStats);
+    getStatisticsFromDatabase().then(dbStats => {
+      const currentStats = dbStats.totalGames > 0 ? dbStats : globalStats;
+      socket.emit('stats-update', currentStats);
+    }).catch(error => {
+      console.error('Error getting stats for new connection:', error);
+      socket.emit('stats-update', globalStats);
+    });
 
     socket.on('disconnect', () => {
       console.log('Client disconnected:', socket.id);
@@ -274,8 +283,9 @@ app.prepare().then(() => {
           if (gameResult.won) globalStats.switchWins += 1;
         }
 
-        // Get current stats from database and broadcast to all clients
-        const currentStats = await getStatisticsFromDatabase();
+        // Get current stats from database or use in-memory stats and broadcast to all clients
+        const dbStats = await getStatisticsFromDatabase();
+        const currentStats = dbStats.totalGames > 0 ? dbStats : globalStats;
         io.emit('stats-update', currentStats);
       } catch (error) {
         console.error('Error processing game result:', error);
@@ -288,8 +298,13 @@ app.prepare().then(() => {
   connectToDatabase().then(async () => {
     try {
       const dbStats = await getStatisticsFromDatabase();
-      globalStats = dbStats;
-      console.log('Loaded statistics from database:', globalStats);
+      // Only load from database if it has data, otherwise keep in-memory stats
+      if (dbStats.totalGames > 0) {
+        globalStats = dbStats;
+        console.log('Loaded statistics from database:', globalStats);
+      } else {
+        console.log('Database has no statistics, using in-memory stats:', globalStats);
+      }
     } catch (error) {
       console.error('Failed to load initial statistics:', error);
     }
