@@ -1,0 +1,6 @@
+{
+  "reject": [
+    "tailwindcss@4.*"
+  ],
+  "target": "minor"
+}

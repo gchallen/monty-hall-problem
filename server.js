@@ -20,7 +20,13 @@ async function connectToDatabase() {
     return { client: cachedClient, db: cachedDb };
   }
 
-  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+  const uri = process.env.MONGODB_URI;
+  
+  if (!uri) {
+    console.log('MONGODB_URI not set, running without database');
+    return { client: null, db: null };
+  }
+  
   const client = new MongoClient(uri);
   
   try {
