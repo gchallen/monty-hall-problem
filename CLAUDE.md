@@ -29,3 +29,7 @@ As the project develops, update this section with:
 
 - Commit incrementally to Git with descriptive commit messages
 - Commit all changes with a descriptive message after each prompt
+
+## Dependency Management
+
+- All project dependencies should be specified with full version numbers and not ranges
