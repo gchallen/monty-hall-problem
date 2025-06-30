@@ -122,7 +122,7 @@ export default function GameBoard() {
               <div className="flex justify-center gap-4">
                 <button
                   onClick={() => handleDoorClick(gameState.initialChoice!)}
-                  className="px-6 py-2 bg-illinois-blue text-white rounded-lg hover:bg-illinois-blue/90 transition-colors"
+                  className="px-4 sm:px-6 py-2 bg-illinois-blue text-white rounded-lg hover:bg-illinois-blue/90 transition-colors text-sm sm:text-base"
                 >
                   Stay with Door {(gameState.initialChoice || 0) + 1}
                 </button>
@@ -133,7 +133,7 @@ export default function GameBoard() {
                     )
                     if (availableDoor) handleDoorClick(availableDoor.id)
                   }}
-                  className="px-6 py-2 bg-illinois-orange text-white rounded-lg hover:bg-illinois-orange/90 transition-colors"
+                  className="px-4 sm:px-6 py-2 bg-illinois-orange text-white rounded-lg hover:bg-illinois-orange/90 transition-colors text-sm sm:text-base"
                 >
                   Switch Doors
                 </button>
@@ -153,7 +153,7 @@ export default function GameBoard() {
               </div>
               <button
                 onClick={resetGame}
-                className="px-8 py-3 bg-illinois-blue text-white rounded-lg hover:bg-illinois-blue/90 transition-colors font-semibold"
+                className="px-6 sm:px-8 py-2 sm:py-3 bg-illinois-blue text-white rounded-lg hover:bg-illinois-blue/90 transition-colors font-semibold text-sm sm:text-base"
               >
                 Play Again
               </button>

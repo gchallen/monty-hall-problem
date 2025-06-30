@@ -14,16 +14,16 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
   }
 
   return (
-    <div className="bg-white rounded-lg p-6 border border-gray-200">
-      <h4 className="text-lg font-semibold text-gray-800 mb-4">
+    <div className="bg-white rounded-lg p-3 sm:p-6 border border-gray-200">
+      <h4 className="text-base sm:text-lg font-semibold text-gray-800 mb-2 sm:mb-4">
         Probability Convergence Over {totalGames.toLocaleString()} Games
       </h4>
-      <p className="text-sm text-gray-600 mb-4">
+      <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-4">
         Watch how the actual win percentages converge to the theoretical values as more games are played. 
         The logarithmic X-axis scale highlights early convergence behavior.
       </p>
       
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" height={300} className="sm:h-[400px]">
         <LineChart
           data={data}
           margin={{
@@ -109,7 +109,7 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
         </LineChart>
       </ResponsiveContainer>
 
-      <div className="mt-4 text-xs text-gray-500">
+      <div className="mt-2 sm:mt-4 text-xs text-gray-500">
         <p>
           • <span className="text-blue-600 font-semibold">Blue line</span>: Actual stay strategy performance
         </p>

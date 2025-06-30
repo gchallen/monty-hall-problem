@@ -16,15 +16,15 @@ export default function StatsPanel({ stats }: StatsPanelProps) {
   )
 
   return (
-    <div className="bg-white rounded-xl shadow-2xl p-6">
-      <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+    <div className="bg-white rounded-xl shadow-2xl p-4 sm:p-6">
+      <h2 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6 text-gray-800">
         Statistics
       </h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         <div className="text-center p-4 bg-gray-50 rounded-lg">
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">Overall</h3>
-          <div className="text-3xl font-bold text-illinois-blue mb-1">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-700 mb-2">Overall</h3>
+          <div className="text-2xl sm:text-3xl font-bold text-illinois-blue mb-1">
             {overallWinRate}%
           </div>
           <div className="text-sm text-gray-600">
@@ -33,8 +33,8 @@ export default function StatsPanel({ stats }: StatsPanelProps) {
         </div>
 
         <div className="text-center p-4 bg-red-50 rounded-lg">
-          <h3 className="text-lg font-semibold text-red-700 mb-2">Stay Strategy</h3>
-          <div className="text-3xl font-bold text-red-600 mb-1">
+          <h3 className="text-base sm:text-lg font-semibold text-red-700 mb-2">Stay Strategy</h3>
+          <div className="text-2xl sm:text-3xl font-bold text-red-600 mb-1">
             {stayWinRate}%
           </div>
           <div className="text-sm text-gray-600">
@@ -46,8 +46,8 @@ export default function StatsPanel({ stats }: StatsPanelProps) {
         </div>
 
         <div className="text-center p-4 bg-green-50 rounded-lg">
-          <h3 className="text-lg font-semibold text-green-700 mb-2">Switch Strategy</h3>
-          <div className="text-3xl font-bold text-green-600 mb-1">
+          <h3 className="text-base sm:text-lg font-semibold text-green-700 mb-2">Switch Strategy</h3>
+          <div className="text-2xl sm:text-3xl font-bold text-green-600 mb-1">
             {switchWinRate}%
           </div>
           <div className="text-sm text-gray-600">

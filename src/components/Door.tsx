@@ -15,7 +15,7 @@ export default function Door({ door, onClick, disabled, showContent }: DoorProps
   return (
     <div
       className={`
-        relative w-32 h-48 border-4 rounded-lg cursor-pointer transition-all duration-300 transform
+        relative w-24 sm:w-28 md:w-32 h-36 sm:h-42 md:h-48 border-2 sm:border-3 md:border-4 rounded-lg cursor-pointer transition-all duration-300 transform
         ${door.isSelected ? 'border-illinois-blue bg-illinois-blue/10 scale-105' : 'border-gray-400 bg-white'}
         ${isClickable ? 'hover:scale-105 hover:shadow-lg' : ''}
         ${disabled ? 'cursor-not-allowed opacity-75' : ''}
@@ -24,20 +24,20 @@ export default function Door({ door, onClick, disabled, showContent }: DoorProps
       onClick={isClickable ? onClick : undefined}
     >
       <div className="absolute inset-2 flex flex-col items-center justify-center">
-        <div className="text-2xl font-bold mb-2">Door {door.id + 1}</div>
+        <div className="text-lg sm:text-xl md:text-2xl font-bold mb-1 sm:mb-2">Door {door.id + 1}</div>
         
         {(door.isOpen || showContent) && (
           <div className="text-center">
             {door.hasIllinois ? (
               <div className="flex flex-col items-center">
-                <div className="text-4xl mb-2">🎓</div>
-                <div className="text-sm font-bold text-illinois-blue">Illinois</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl mb-1 sm:mb-2">🎓</div>
+                <div className="text-xs sm:text-sm font-bold text-illinois-blue">Illinois</div>
                 <div className="text-xs text-illinois-orange">Acceptance!</div>
               </div>
             ) : (
               <div className="flex flex-col items-center">
-                <div className="text-4xl mb-2">🏫</div>
-                <div className="text-sm font-bold text-purdue-black">Purdue</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl mb-1 sm:mb-2">🏫</div>
+                <div className="text-xs sm:text-sm font-bold text-purdue-black">Purdue</div>
                 <div className="text-xs text-purdue-gold">Acceptance</div>
               </div>
             )}
@@ -45,7 +45,7 @@ export default function Door({ door, onClick, disabled, showContent }: DoorProps
         )}
 
         {!door.isOpen && !showContent && (
-          <div className="text-6xl opacity-30">?</div>
+          <div className="text-4xl sm:text-5xl md:text-6xl opacity-30">?</div>
         )}
       </div>
 

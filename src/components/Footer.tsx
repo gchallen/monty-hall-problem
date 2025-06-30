@@ -2,9 +2,9 @@
 
 export default function Footer() {
   return (
-    <footer className="mt-12 py-8 border-t border-gray-200 bg-white">
-      <div className="max-w-6xl mx-auto px-8 text-center">
-        <p className="text-gray-600 text-sm">
+    <footer className="mt-8 sm:mt-12 py-6 sm:py-8 border-t border-gray-200 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 text-center">
+        <p className="text-gray-600 text-xs sm:text-sm">
           🎵 Vibe coded by{' '}
           <a 
             href="https://www.geoffreychallen.com" 

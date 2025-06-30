@@ -39,32 +39,32 @@ export default function BulkSimulator({ onSimulationComplete }: BulkSimulatorPro
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-2xl p-8 mb-8">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Bulk Simulation</h2>
-      <p className="text-gray-600 mb-6">
+    <div className="bg-white rounded-xl shadow-2xl p-4 sm:p-6 md:p-8 mb-8">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Bulk Simulation</h2>
+      <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
         Run multiple games at once to see how the probabilities converge to the theoretical values 
         (Stay: 33.3%, Switch: 66.7%)
       </p>
       
-      <div className="flex gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-6">
         <button
           onClick={() => runSimulation(100)}
           disabled={isSimulating}
-          className="px-6 py-3 bg-illinois-blue text-white rounded-lg hover:bg-illinois-blue/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+          className="px-4 sm:px-6 py-2 sm:py-3 bg-illinois-blue text-white rounded-lg hover:bg-illinois-blue/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-sm sm:text-base"
         >
           Run 100 Games
         </button>
         <button
           onClick={() => runSimulation(1000)}
           disabled={isSimulating}
-          className="px-6 py-3 bg-illinois-blue text-white rounded-lg hover:bg-illinois-blue/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+          className="px-4 sm:px-6 py-2 sm:py-3 bg-illinois-blue text-white rounded-lg hover:bg-illinois-blue/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-sm sm:text-base"
         >
           Run 1,000 Games
         </button>
         <button
           onClick={() => runSimulation(10000)}
           disabled={isSimulating}
-          className="px-6 py-3 bg-illinois-blue text-white rounded-lg hover:bg-illinois-blue/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+          className="px-4 sm:px-6 py-2 sm:py-3 bg-illinois-blue text-white rounded-lg hover:bg-illinois-blue/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-sm sm:text-base"
         >
           Run 10,000 Games
         </button>
@@ -79,14 +79,14 @@ export default function BulkSimulator({ onSimulationComplete }: BulkSimulatorPro
 
       {lastSimulation && !isSimulating && (
         <div className="bg-gray-50 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-3">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3">
             Results from {lastSimulation.count.toLocaleString()} games 
-            <span className="text-sm font-normal text-gray-600 ml-2">
+            <span className="text-xs sm:text-sm font-normal text-gray-600 ml-1 sm:ml-2 block sm:inline">
               (completed in {lastSimulation.duration.toFixed(0)}ms)
             </span>
           </h3>
           
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div className="bg-white rounded-lg p-4 border border-gray-200">
               <h4 className="font-semibold text-gray-700 mb-2">Stay Strategy</h4>
               <p className="text-3xl font-bold text-illinois-blue">

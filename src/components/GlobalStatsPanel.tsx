@@ -17,9 +17,9 @@ export default function GlobalStatsPanel({ stats, isConnected }: GlobalStatsPane
   )
 
   return (
-    <div className="bg-white rounded-xl shadow-2xl p-6 mt-8">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">
+    <div className="bg-white rounded-xl shadow-2xl p-4 sm:p-6 mt-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-2">
+        <h2 className="text-lg sm:text-2xl font-bold text-gray-800">
           Global Statistics (All Players)
         </h2>
         <div className="flex items-center">
@@ -30,40 +30,40 @@ export default function GlobalStatsPanel({ stats, isConnected }: GlobalStatsPane
         </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
         <div className="text-center p-4 bg-illinois-blue/10 rounded-lg">
-          <h3 className="text-lg font-semibold text-illinois-blue mb-2">Total Games</h3>
-          <div className="text-3xl font-bold text-illinois-blue">
+          <h3 className="text-sm sm:text-lg font-semibold text-illinois-blue mb-1 sm:mb-2">Total Games</h3>
+          <div className="text-xl sm:text-3xl font-bold text-illinois-blue">
             {stats.totalGames.toLocaleString()}
           </div>
         </div>
 
         <div className="text-center p-4 bg-gray-50 rounded-lg">
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">Overall Win Rate</h3>
-          <div className="text-3xl font-bold text-illinois-blue mb-1">
+          <h3 className="text-sm sm:text-lg font-semibold text-gray-700 mb-1 sm:mb-2">Overall Win Rate</h3>
+          <div className="text-xl sm:text-3xl font-bold text-illinois-blue mb-1">
             {overallWinRate}%
           </div>
-          <div className="text-sm text-gray-600">
+          <div className="text-xs sm:text-sm text-gray-600">
             {(stats.stayWins + stats.switchWins).toLocaleString()} Illinois acceptances
           </div>
         </div>
 
         <div className="text-center p-4 bg-red-50 rounded-lg">
-          <h3 className="text-lg font-semibold text-red-700 mb-2">Stay Strategy</h3>
-          <div className="text-3xl font-bold text-red-600 mb-1">
+          <h3 className="text-sm sm:text-lg font-semibold text-red-700 mb-1 sm:mb-2">Stay Strategy</h3>
+          <div className="text-xl sm:text-3xl font-bold text-red-600 mb-1">
             {stayWinRate}%
           </div>
-          <div className="text-sm text-gray-600">
+          <div className="text-xs sm:text-sm text-gray-600">
             {stats.stayWins.toLocaleString()} / {stats.stayTotal.toLocaleString()} games
           </div>
         </div>
 
         <div className="text-center p-4 bg-green-50 rounded-lg">
-          <h3 className="text-lg font-semibold text-green-700 mb-2">Switch Strategy</h3>
-          <div className="text-3xl font-bold text-green-600 mb-1">
+          <h3 className="text-sm sm:text-lg font-semibold text-green-700 mb-1 sm:mb-2">Switch Strategy</h3>
+          <div className="text-xl sm:text-3xl font-bold text-green-600 mb-1">
             {switchWinRate}%
           </div>
-          <div className="text-sm text-gray-600">
+          <div className="text-xs sm:text-sm text-gray-600">
             {stats.switchWins.toLocaleString()} / {stats.switchTotal.toLocaleString()} games
           </div>
         </div>
