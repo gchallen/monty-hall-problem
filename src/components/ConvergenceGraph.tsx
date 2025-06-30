@@ -52,7 +52,7 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
             stroke="#666"
             tick={{ fontSize: 10 }}
             domain={[0, 100]}
-            label={{ value: 'Win Percentage (%)', angle: -90, position: 'insideLeft', style: { fontSize: 11 } }}
+            label={{ value: 'Win Percentage (%)', angle: -90, position: 'insideLeft', style: { fontSize: 11, textAnchor: 'middle' } }}
           />
           <Tooltip 
             formatter={(value: number, name: string) => [
