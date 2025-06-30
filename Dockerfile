@@ -18,7 +18,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build the Next.js application
-RUN NEXT_PUBLIC_BASE_PATH=/monty-hall-problem npm run build
+RUN npm run build
 
 # Production image, copy all the files and run the custom server
 FROM base AS runner
@@ -30,12 +30,12 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy the custom server
+# Copy the custom server and package files
 COPY --chown=nextjs:nodejs server.js ./
+COPY --chown=nextjs:nodejs package.json ./
 
-# Copy the built Next.js application
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# Copy the entire built Next.js application
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
 # Copy node_modules for production dependencies
@@ -49,7 +49,7 @@ EXPOSE 3000
 
 # Add health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''; require('http').get(\`http://localhost:3000\${basePath}/api/stats\`, (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+  CMD node -e "require('http').get('http://localhost:3000/api/stats', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
 
 # Set environment variables
 ENV PORT=3000

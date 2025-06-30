@@ -6,6 +6,7 @@ import { GameResult, Statistics } from '@/types/game'
 
 // Use the same origin for WebSocket connections (local Next.js server with integrated Socket.IO)
 const BACKEND_URL = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'
+const isDevelopment = process.env.NODE_ENV === 'development'
 
 // Get the base path for socket.io path configuration
 const getSocketPath = () => {
@@ -28,7 +29,7 @@ export function useWebSocket() {
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
-    console.log('Connecting to backend:', BACKEND_URL)
+    if (isDevelopment) console.log('Connecting to backend:', BACKEND_URL)
     
     const socketInstance = io(BACKEND_URL, {
       path: getSocketPath(),
@@ -36,22 +37,22 @@ export function useWebSocket() {
     })
 
     socketInstance.on('connect', () => {
-      console.log('Connected to backend WebSocket server')
+      if (isDevelopment) console.log('Connected to backend WebSocket server')
       setIsConnected(true)
     })
 
     socketInstance.on('disconnect', () => {
-      console.log('Disconnected from backend WebSocket server')
+      if (isDevelopment) console.log('Disconnected from backend WebSocket server')
       setIsConnected(false)
     })
 
     socketInstance.on('connect_error', (error) => {
-      console.error('WebSocket connection error:', error)
+      if (isDevelopment) console.error('WebSocket connection error:', error)
       setIsConnected(false)
     })
 
     socketInstance.on('stats-update', (stats: Statistics) => {
-      console.log('Received stats update:', stats)
+      if (isDevelopment) console.log('Received stats update:', stats)
       setGlobalStats(stats)
     })
 
@@ -74,7 +75,7 @@ export function useWebSocket() {
         setGlobalStats(stats)
       }
     } catch (error) {
-      console.error('Error fetching initial stats:', error)
+      if (isDevelopment) console.error('Error fetching initial stats:', error)
     }
   }
 
@@ -100,7 +101,7 @@ export function useWebSocket() {
         }
       }
     } catch (error) {
-      console.error('Error sending game result:', error)
+      if (isDevelopment) console.error('Error sending game result:', error)
     }
   }
 

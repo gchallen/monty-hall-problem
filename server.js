@@ -5,6 +5,7 @@ const { Server } = require('socket.io');
 const { MongoClient } = require('mongodb');
 
 const dev = process.env.NODE_ENV !== 'production';
+const isDevelopment = process.env.DEVELOPMENT === 'true';
 const hostname = 'localhost';
 const port = process.env.PORT || 3000;
 
@@ -21,22 +22,22 @@ async function connectToDatabase() {
   }
 
   const uri = process.env.MONGODB_URI;
-  
+
   if (!uri) {
     console.log('MONGODB_URI not set, running without database');
     return { client: null, db: null };
   }
-  
+
   const client = new MongoClient(uri);
-  
+
   try {
     await client.connect();
     const db = client.db('monty-hall');
-    
+
     cachedClient = client;
     cachedDb = db;
-    
-    console.log('Connected to MongoDB');
+
+    if (isDevelopment) console.log('Connected to MongoDB');
     return { client, db };
   } catch (error) {
     console.error('Failed to connect to MongoDB:', error);
@@ -46,27 +47,27 @@ async function connectToDatabase() {
 
 async function saveGameResult(result) {
   if (!result) {
-    console.log('Invalid result, skipping database save');
+    if (isDevelopment) console.log('Invalid result, skipping database save');
     return;
   }
 
   try {
     const { db } = await connectToDatabase();
     if (!db) {
-      console.log('Database not available, skipping save');
+      if (isDevelopment) console.log('Database not available, skipping save');
       return;
     }
-    
+
     const collection = db.collection('game-results');
-    
+
     const gameResult = {
       ...result,
       timestamp: new Date(),
       id: result.id || generateId()
     };
-    
+
     await collection.insertOne(gameResult);
-    console.log('Game result saved to database');
+    if (isDevelopment) console.log('Game result saved to database');
   } catch (error) {
     console.error('Error saving game result to MongoDB:', error);
   }
@@ -84,9 +85,9 @@ async function getStatisticsFromDatabase() {
         switchTotal: 0,
       };
     }
-    
+
     const collection = db.collection('game-results');
-    
+
     const pipeline = [
       {
         $group: {
@@ -121,7 +122,7 @@ async function getStatisticsFromDatabase() {
     ];
 
     const result = await collection.aggregate(pipeline).toArray();
-    
+
     if (result.length === 0) {
       return {
         totalGames: 0,
@@ -171,13 +172,7 @@ app.prepare().then(() => {
       const parsedUrl = parse(req.url, true);
       const { pathname, query } = parsedUrl;
 
-      // Handle basePath by removing it from the pathname for routing
-      const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-      const normalizedPathname = basePath && (pathname === basePath || pathname.startsWith(basePath + '/'))
-        ? pathname.slice(basePath.length) 
-        : pathname;
-
-      if (normalizedPathname === '/api/stats') {
+      if (pathname === '/api/stats') {
         // Get statistics from database or fallback to in-memory
         try {
           const dbStats = await getStatisticsFromDatabase();
@@ -190,7 +185,7 @@ app.prepare().then(() => {
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify(globalStats));
         }
-      } else if (normalizedPathname === '/api/game-result' && req.method === 'POST') {
+      } else if (pathname === '/api/game-result' && req.method === 'POST') {
         // Handle game result submission
         let body = '';
         req.on('data', chunk => {
@@ -199,7 +194,7 @@ app.prepare().then(() => {
         req.on('end', async () => {
           try {
             const gameResult = JSON.parse(body);
-            
+
             // Validate game result
             if (!gameResult || !gameResult.strategy || typeof gameResult.won !== 'boolean') {
               res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -223,7 +218,7 @@ app.prepare().then(() => {
             // Get current stats from database or use in-memory stats
             const dbStats = await getStatisticsFromDatabase();
             const currentStats = dbStats.totalGames > 0 ? dbStats : globalStats;
-            
+
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ success: true, stats: currentStats }));
           } catch (error) {
@@ -244,9 +239,7 @@ app.prepare().then(() => {
   });
 
   // Initialize Socket.IO
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
   const io = new Server(server, {
-    path: basePath ? `${basePath}/socket.io/` : '/socket.io/',
     cors: {
       origin: "*",
       methods: ["GET", "POST"]
@@ -255,7 +248,7 @@ app.prepare().then(() => {
 
   // Socket.IO connection handling
   io.on('connection', (socket) => {
-    console.log('Client connected:', socket.id);
+    if (isDevelopment) console.log('Client connected:', socket.id);
 
     // Send current statistics when client connects
     getStatisticsFromDatabase().then(dbStats => {
@@ -267,7 +260,7 @@ app.prepare().then(() => {
     });
 
     socket.on('disconnect', () => {
-      console.log('Client disconnected:', socket.id);
+      if (isDevelopment) console.log('Client disconnected:', socket.id);
     });
 
     socket.on('game-result', async (gameResult) => {
@@ -309,9 +302,9 @@ app.prepare().then(() => {
       // Only load from database if it has data, otherwise keep in-memory stats
       if (dbStats.totalGames > 0) {
         globalStats = dbStats;
-        console.log('Loaded statistics from database:', globalStats);
+        if (isDevelopment) console.log('Loaded statistics from database:', globalStats);
       } else {
-        console.log('Database has no statistics, using in-memory stats:', globalStats);
+        if (isDevelopment) console.log('Database has no statistics, using in-memory stats:', globalStats);
       }
     } catch (error) {
       console.error('Failed to load initial statistics:', error);
