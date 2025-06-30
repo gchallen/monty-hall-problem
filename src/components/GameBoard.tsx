@@ -7,6 +7,7 @@ import { useWebSocket } from '@/lib/websocket-client'
 import Door from './Door'
 import StatsPanel from './StatsPanel'
 import GlobalStatsPanel from './GlobalStatsPanel'
+import BulkSimulator from './BulkSimulator'
 
 export default function GameBoard() {
   const [gameState, setGameState] = useState<GameState>(createNewGame())
@@ -40,6 +41,16 @@ export default function GameBoard() {
       switchWins: prevStats.switchWins + (strategy === 'switch' && won ? 1 : 0),
       stayTotal: prevStats.stayTotal + (strategy === 'stay' ? 1 : 0),
       switchTotal: prevStats.switchTotal + (strategy === 'switch' ? 1 : 0),
+    }))
+  }
+
+  const handleBulkSimulation = (bulkStats: Statistics) => {
+    setStats(prevStats => ({
+      totalGames: prevStats.totalGames + bulkStats.totalGames,
+      stayWins: prevStats.stayWins + bulkStats.stayWins,
+      switchWins: prevStats.switchWins + bulkStats.switchWins,
+      stayTotal: prevStats.stayTotal + bulkStats.stayTotal,
+      switchTotal: prevStats.switchTotal + bulkStats.switchTotal,
     }))
   }
 
@@ -149,6 +160,7 @@ export default function GameBoard() {
           )}
         </div>
 
+        <BulkSimulator onSimulationComplete={handleBulkSimulation} />
         <StatsPanel stats={stats} />
         <GlobalStatsPanel stats={globalStats} isConnected={isConnected} />
       </div>
