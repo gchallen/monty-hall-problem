@@ -19,7 +19,8 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
         Probability Convergence Over {totalGames.toLocaleString()} Games
       </h4>
       <p className="text-sm text-gray-600 mb-4">
-        Watch how the actual win percentages converge to the theoretical values as more games are played.
+        Watch how the actual win percentages converge to the theoretical values as more games are played. 
+        The logarithmic X-axis scale highlights early convergence behavior.
       </p>
       
       <ResponsiveContainer width="100%" height={400}>
@@ -37,7 +38,14 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
             dataKey="gameNumber" 
             stroke="#666"
             tick={{ fontSize: 12 }}
-            label={{ value: 'Number of Games', position: 'insideBottom', offset: -10 }}
+            scale="log"
+            domain={['dataMin', 'dataMax']}
+            allowDataOverflow={false}
+            label={{ value: 'Number of Games (Log Scale)', position: 'insideBottom', offset: -10 }}
+            tickFormatter={(value) => {
+              if (value >= 1000) return `${(value / 1000).toFixed(0)}k`
+              return value.toString()
+            }}
           />
           <YAxis 
             stroke="#666"
@@ -110,6 +118,9 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
         </p>
         <p>
           • <span className="text-gray-400 font-semibold">Dashed lines</span>: Theoretical probabilities (33.3% and 66.7%)
+        </p>
+        <p className="mt-2 text-xs">
+          Note: The X-axis uses a logarithmic scale to better show early convergence patterns.
         </p>
       </div>
     </div>
