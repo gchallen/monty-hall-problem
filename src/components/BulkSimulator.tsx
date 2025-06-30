@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import { Statistics } from '@/types/game'
-import { simulateBulkGames } from '@/lib/bulk-simulation'
+import { simulateBulkGames, ConvergenceDataPoint } from '@/lib/bulk-simulation'
 import { calculateWinPercentage } from '@/lib/game'
+import ConvergenceGraph from './ConvergenceGraph'
 
 interface BulkSimulatorProps {
   onSimulationComplete: (stats: Statistics) => void
@@ -15,6 +16,7 @@ export default function BulkSimulator({ onSimulationComplete }: BulkSimulatorPro
     count: number
     duration: number
     stats: Statistics
+    convergenceData: ConvergenceDataPoint[]
   } | null>(null)
 
   const runSimulation = async (count: number) => {
@@ -27,7 +29,8 @@ export default function BulkSimulator({ onSimulationComplete }: BulkSimulatorPro
       setLastSimulation({
         count,
         duration: result.duration,
-        stats: result.stats
+        stats: result.stats,
+        convergenceData: result.convergenceData
       })
       
       onSimulationComplete(result.stats)
@@ -116,6 +119,13 @@ export default function BulkSimulator({ onSimulationComplete }: BulkSimulatorPro
               Difference from theoretical: Stay {Math.abs(calculateWinPercentage(lastSimulation.stats.stayWins, lastSimulation.stats.stayTotal) - 33.3).toFixed(1)}%, 
               Switch {Math.abs(calculateWinPercentage(lastSimulation.stats.switchWins, lastSimulation.stats.switchTotal) - 66.7).toFixed(1)}%
             </p>
+          </div>
+          
+          <div className="mt-6">
+            <ConvergenceGraph 
+              data={lastSimulation.convergenceData} 
+              totalGames={lastSimulation.count * 2}
+            />
           </div>
         </div>
       )}

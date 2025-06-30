@@ -41,4 +41,28 @@ describe('Bulk Simulation', () => {
     expect(result.duration).toBeGreaterThan(0)
     expect(result.duration).toBeLessThan(1000) // Should complete in less than 1 second
   })
+
+  it('should generate convergence data', () => {
+    const result = simulateBulkGames(100)
+    
+    // Should have convergence data points
+    expect(result.convergenceData).toBeDefined()
+    expect(result.convergenceData.length).toBeGreaterThan(0)
+    
+    // Check structure of data points
+    const firstPoint = result.convergenceData[0]
+    expect(firstPoint).toHaveProperty('gameNumber')
+    expect(firstPoint).toHaveProperty('stayPercentage')
+    expect(firstPoint).toHaveProperty('switchPercentage')
+    expect(firstPoint).toHaveProperty('theoreticalStay')
+    expect(firstPoint).toHaveProperty('theoreticalSwitch')
+    
+    // Check theoretical values are correct
+    expect(firstPoint.theoreticalStay).toBe(33.33)
+    expect(firstPoint.theoreticalSwitch).toBe(66.67)
+    
+    // Check that game numbers increase
+    const lastPoint = result.convergenceData[result.convergenceData.length - 1]
+    expect(lastPoint.gameNumber).toBe(100)
+  })
 })
