@@ -27,31 +27,32 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
         <LineChart
           data={data}
           margin={{
-            top: 20,
-            right: 30,
-            left: 20,
-            bottom: 20,
+            top: 10,
+            right: 20,
+            left: 40,
+            bottom: 40,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
           <XAxis 
             dataKey="gameNumber" 
             stroke="#666"
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: 10 }}
             scale="log"
             domain={['dataMin', 'dataMax']}
             allowDataOverflow={false}
-            label={{ value: 'Number of Games (Log Scale)', position: 'insideBottom', offset: -10 }}
+            label={{ value: 'Number of Games (Log Scale)', position: 'insideBottom', offset: -10, style: { fontSize: 11 } }}
             tickFormatter={(value) => {
-              if (value >= 1000) return `${(value / 1000).toFixed(0)}k`
+              if (value >= 10000) return `${(value / 1000).toFixed(0)}k`
+              if (value >= 1000) return `${(value / 1000).toFixed(1)}k`
               return value.toString()
             }}
           />
           <YAxis 
             stroke="#666"
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: 10 }}
             domain={[0, 100]}
-            label={{ value: 'Win Percentage (%)', angle: -90, position: 'insideLeft' }}
+            label={{ value: 'Win Percentage (%)', angle: -90, position: 'insideLeft', style: { fontSize: 11 } }}
           />
           <Tooltip 
             formatter={(value: number, name: string) => [

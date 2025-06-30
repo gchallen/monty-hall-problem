@@ -23,8 +23,8 @@ export default function Door({ door, onClick, disabled, showContent }: DoorProps
       `}
       onClick={isClickable ? onClick : undefined}
     >
-      <div className="absolute inset-2 flex flex-col items-center justify-center">
-        <div className="text-lg sm:text-xl md:text-2xl font-bold mb-1 sm:mb-2">Door {door.id + 1}</div>
+      <div className="absolute inset-0 flex flex-col items-center justify-center p-2">
+        <div className="text-lg sm:text-xl md:text-2xl font-bold mb-1 sm:mb-2 text-center">Door {door.id + 1}</div>
         
         {(door.isOpen || showContent) && (
           <div className="text-center">
