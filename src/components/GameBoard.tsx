@@ -8,6 +8,7 @@ import Door from './Door'
 import StatsPanel from './StatsPanel'
 import GlobalStatsPanel from './GlobalStatsPanel'
 import BulkSimulator from './BulkSimulator'
+import Footer from './Footer'
 
 export default function GameBoard() {
   const [gameState, setGameState] = useState<GameState>(createNewGame())
@@ -164,6 +165,7 @@ export default function GameBoard() {
         <StatsPanel stats={stats} />
         <GlobalStatsPanel stats={globalStats} isConnected={isConnected} />
       </div>
+      <Footer />
     </div>
   )
 }
