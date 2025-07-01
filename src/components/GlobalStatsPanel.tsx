@@ -32,8 +32,8 @@ export default function GlobalStatsPanel({ stats, isConnected }: GlobalStatsPane
       
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
         <div className="text-center p-4 bg-illinois-blue/10 dark:bg-illinois-blue/20 rounded-lg transition-colors">
-          <h3 className="text-sm sm:text-lg font-semibold text-illinois-blue dark:text-illinois-orange mb-1 sm:mb-2">Total Games</h3>
-          <div className="text-xl sm:text-3xl font-bold text-illinois-blue dark:text-illinois-orange">
+          <h3 className="text-sm sm:text-lg font-semibold text-illinois-blue dark:text-blue-400 mb-1 sm:mb-2">Total Games</h3>
+          <div className="text-xl sm:text-3xl font-bold text-illinois-blue dark:text-blue-400">
             {stats.totalGames.toLocaleString()}
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function GlobalStatsPanel({ stats, isConnected }: GlobalStatsPane
 
       {stats.totalGames >= 100 && (
         <div className="mt-6 p-4 bg-gradient-to-r from-illinois-blue/10 to-illinois-orange/10 dark:from-illinois-blue/20 dark:to-illinois-orange/20 rounded-lg transition-colors">
-          <h4 className="font-semibold text-illinois-blue dark:text-illinois-orange mb-2">Live Global Results:</h4>
+          <h4 className="font-semibold text-illinois-blue dark:text-blue-400 mb-2">Live Global Results:</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm dark:text-gray-300">
             <div>
               <strong>Switch Advantage:</strong> {Math.abs(switchWinRate - stayWinRate).toFixed(1)}% higher win rate

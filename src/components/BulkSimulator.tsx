@@ -89,7 +89,7 @@ export default function BulkSimulator({ onSimulationComplete }: BulkSimulatorPro
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div className="bg-white dark:bg-gray-600 rounded-lg p-4 border border-gray-200 dark:border-gray-500 transition-colors">
               <h4 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">Stay Strategy</h4>
-              <p className="text-3xl font-bold text-illinois-blue dark:text-illinois-orange">
+              <p className="text-3xl font-bold text-illinois-blue dark:text-blue-400">
                 {calculateWinPercentage(lastSimulation.stats.stayWins, lastSimulation.stats.stayTotal)}%
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
@@ -102,7 +102,7 @@ export default function BulkSimulator({ onSimulationComplete }: BulkSimulatorPro
             
             <div className="bg-white dark:bg-gray-600 rounded-lg p-4 border border-gray-200 dark:border-gray-500 transition-colors">
               <h4 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">Switch Strategy</h4>
-              <p className="text-3xl font-bold text-illinois-orange dark:text-illinois-blue">
+              <p className="text-3xl font-bold text-illinois-orange dark:text-orange-400">
                 {calculateWinPercentage(lastSimulation.stats.switchWins, lastSimulation.stats.switchTotal)}%
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">

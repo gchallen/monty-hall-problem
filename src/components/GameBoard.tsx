@@ -84,13 +84,13 @@ export default function GameBoard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-illinois-blue to-purdue-black dark:from-gray-900 dark:to-black p-8 transition-colors">
+    <div className="min-h-screen bg-gradient-to-br from-illinois-blue to-purdue-black dark:from-gray-800 dark:to-gray-900 p-8 transition-colors">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white dark:text-gray-100 mb-4">
             The Monty Hall Problem: Illinois vs Purdue Edition
           </h1>
-          <p className="text-lg text-gray-200 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-200 dark:text-gray-200 max-w-2xl mx-auto">
             Behind one door is acceptance to the University of Illinois, behind the other two are Purdue acceptances. 
             Choose wisely and see if switching doors really improves your odds!
           </p>
@@ -98,7 +98,7 @@ export default function GameBoard() {
 
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-8 mb-8 transition-colors">
           <div className="text-center mb-6">
-            <p className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+            <p className="text-xl font-semibold text-gray-800 dark:text-gray-100">
               {getPhaseMessage()}
             </p>
           </div>
@@ -145,7 +145,7 @@ export default function GameBoard() {
           {gameState.phase === 'game-over' && (
             <div className="text-center">
               <div className="mb-4">
-                <p className="text-lg dark:text-gray-200">
+                <p className="text-lg dark:text-gray-100">
                   You chose to <strong>{gameState.strategy}</strong> and 
                   <strong className={gameState.playerWon ? 'text-green-600' : 'text-red-600'}>
                     {gameState.playerWon ? ' won' : ' lost'}

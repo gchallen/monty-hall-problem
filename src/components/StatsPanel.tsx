@@ -24,7 +24,7 @@ export default function StatsPanel({ stats }: StatsPanelProps) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         <div className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg transition-colors">
           <h3 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">Overall</h3>
-          <div className="text-2xl sm:text-3xl font-bold text-illinois-blue dark:text-illinois-orange mb-1">
+          <div className="text-2xl sm:text-3xl font-bold text-illinois-blue dark:text-blue-400 mb-1">
             {overallWinRate}%
           </div>
           <div className="text-sm text-gray-600 dark:text-gray-300">
@@ -61,7 +61,7 @@ export default function StatsPanel({ stats }: StatsPanelProps) {
 
       {stats.totalGames > 0 && (
         <div className="mt-6 p-4 bg-illinois-blue/10 dark:bg-illinois-blue/20 rounded-lg transition-colors">
-          <h4 className="font-semibold text-illinois-blue dark:text-illinois-orange mb-2">Key Insights:</h4>
+          <h4 className="font-semibold text-illinois-blue dark:text-blue-400 mb-2">Key Insights:</h4>
           <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
             <li>• Switching doors should win approximately 2/3 of the time</li>
             <li>• Staying with your original choice should win approximately 1/3 of the time</li>

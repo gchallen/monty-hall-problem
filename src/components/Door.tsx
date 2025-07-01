@@ -31,13 +31,13 @@ export default function Door({ door, onClick, disabled, showContent }: DoorProps
             {door.hasIllinois ? (
               <div className="flex flex-col items-center">
                 <div className="text-2xl sm:text-3xl md:text-4xl mb-1 sm:mb-2">🎓</div>
-                <div className="text-xs sm:text-sm font-bold text-illinois-blue dark:text-illinois-orange">Illinois</div>
+                <div className="text-xs sm:text-sm font-bold text-illinois-blue dark:text-yellow-300">Illinois</div>
                 <div className="text-xs text-illinois-orange">Acceptance!</div>
               </div>
             ) : (
               <div className="flex flex-col items-center">
                 <div className="text-2xl sm:text-3xl md:text-4xl mb-1 sm:mb-2">🏫</div>
-                <div className="text-xs sm:text-sm font-bold text-purdue-black dark:text-gray-300">Purdue</div>
+                <div className="text-xs sm:text-sm font-bold text-purdue-black dark:text-gray-100">Purdue</div>
                 <div className="text-xs text-purdue-gold">Acceptance</div>
               </div>
             )}
@@ -45,7 +45,7 @@ export default function Door({ door, onClick, disabled, showContent }: DoorProps
         )}
 
         {!door.isOpen && !showContent && (
-          <div className="text-4xl sm:text-5xl md:text-6xl opacity-30 dark:text-gray-400">?</div>
+          <div className="text-4xl sm:text-5xl md:text-6xl opacity-30 dark:text-gray-300">?</div>
         )}
       </div>
 

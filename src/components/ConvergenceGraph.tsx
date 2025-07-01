@@ -33,10 +33,10 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
             bottom: 40,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" className="dark:opacity-20" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" className="dark:stroke-gray-600" />
           <XAxis 
             dataKey="gameNumber" 
-            stroke="#999"
+            stroke="#666"
             tick={{ fontSize: 10 }}
             scale="log"
             domain={['dataMin', 'dataMax']}
@@ -49,7 +49,7 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
             }}
           />
           <YAxis 
-            stroke="#999"
+            stroke="#666"
             tick={{ fontSize: 10 }}
             domain={[0, 100]}
             label={{ value: 'Win Percentage (%)', angle: -90, position: 'insideLeft', style: { fontSize: 11, textAnchor: 'middle' } }}

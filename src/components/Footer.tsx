@@ -10,7 +10,7 @@ export default function Footer() {
             href="https://www.geoffreychallen.com" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-illinois-blue dark:text-illinois-orange hover:text-illinois-blue/80 dark:hover:text-illinois-orange/80 font-semibold transition-colors"
+            className="text-illinois-blue dark:text-blue-400 hover:text-illinois-blue/80 dark:hover:text-blue-300 font-semibold transition-colors"
           >
             Geoffrey Challen
           </a>
@@ -19,7 +19,7 @@ export default function Footer() {
             href="https://claude.ai/code" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-illinois-orange dark:text-illinois-blue hover:text-illinois-orange/80 dark:hover:text-illinois-blue/80 font-semibold transition-colors"
+            className="text-illinois-orange dark:text-orange-400 hover:text-illinois-orange/80 dark:hover:text-orange-300 font-semibold transition-colors"
           >
             Claude Code
           </a>
