@@ -39,9 +39,9 @@ export default function BulkSimulator({ onSimulationComplete }: BulkSimulatorPro
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-2xl p-4 sm:p-6 md:p-8 mb-8">
-      <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Bulk Simulation</h2>
-      <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-4 sm:p-6 md:p-8 mb-8 transition-colors">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">Bulk Simulation</h2>
+      <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4 sm:mb-6">
         Run multiple games at once to see how the probabilities converge to the theoretical values 
         (Stay: 33.3%, Switch: 66.7%)
       </p>
@@ -73,48 +73,48 @@ export default function BulkSimulator({ onSimulationComplete }: BulkSimulatorPro
       {isSimulating && (
         <div className="text-center py-4">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-illinois-blue"></div>
-          <p className="mt-2 text-gray-600">Simulating games...</p>
+          <p className="mt-2 text-gray-600 dark:text-gray-300">Simulating games...</p>
         </div>
       )}
 
       {lastSimulation && !isSimulating && (
-        <div className="bg-gray-50 rounded-lg p-6">
-          <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3">
+        <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 transition-colors">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 mb-3">
             Results from {lastSimulation.count.toLocaleString()} games 
-            <span className="text-xs sm:text-sm font-normal text-gray-600 ml-1 sm:ml-2 block sm:inline">
+            <span className="text-xs sm:text-sm font-normal text-gray-600 dark:text-gray-300 ml-1 sm:ml-2 block sm:inline">
               (completed in {lastSimulation.duration.toFixed(0)}ms)
             </span>
           </h3>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-            <div className="bg-white rounded-lg p-4 border border-gray-200">
-              <h4 className="font-semibold text-gray-700 mb-2">Stay Strategy</h4>
-              <p className="text-3xl font-bold text-illinois-blue">
+            <div className="bg-white dark:bg-gray-600 rounded-lg p-4 border border-gray-200 dark:border-gray-500 transition-colors">
+              <h4 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">Stay Strategy</h4>
+              <p className="text-3xl font-bold text-illinois-blue dark:text-illinois-orange">
                 {calculateWinPercentage(lastSimulation.stats.stayWins, lastSimulation.stats.stayTotal)}%
               </p>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
                 {lastSimulation.stats.stayWins.toLocaleString()} wins / {lastSimulation.stats.stayTotal.toLocaleString()} games
               </p>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                 Theoretical: 33.3%
               </p>
             </div>
             
-            <div className="bg-white rounded-lg p-4 border border-gray-200">
-              <h4 className="font-semibold text-gray-700 mb-2">Switch Strategy</h4>
-              <p className="text-3xl font-bold text-illinois-orange">
+            <div className="bg-white dark:bg-gray-600 rounded-lg p-4 border border-gray-200 dark:border-gray-500 transition-colors">
+              <h4 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">Switch Strategy</h4>
+              <p className="text-3xl font-bold text-illinois-orange dark:text-illinois-blue">
                 {calculateWinPercentage(lastSimulation.stats.switchWins, lastSimulation.stats.switchTotal)}%
               </p>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
                 {lastSimulation.stats.switchWins.toLocaleString()} wins / {lastSimulation.stats.switchTotal.toLocaleString()} games
               </p>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                 Theoretical: 66.7%
               </p>
             </div>
           </div>
 
-          <div className="mt-4 text-sm text-gray-600">
+          <div className="mt-4 text-sm text-gray-600 dark:text-gray-300">
             <p>
               Difference from theoretical: Stay {Math.abs(calculateWinPercentage(lastSimulation.stats.stayWins, lastSimulation.stats.stayTotal) - 33.3).toFixed(1)}%, 
               Switch {Math.abs(calculateWinPercentage(lastSimulation.stats.switchWins, lastSimulation.stats.switchTotal) - 66.7).toFixed(1)}%

@@ -14,11 +14,11 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
   }
 
   return (
-    <div className="bg-white rounded-lg p-3 sm:p-6 border border-gray-200">
-      <h4 className="text-base sm:text-lg font-semibold text-gray-800 mb-2 sm:mb-4">
+    <div className="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-6 border border-gray-200 dark:border-gray-600 transition-colors">
+      <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2 sm:mb-4">
         Probability Convergence Over {totalGames.toLocaleString()} Games
       </h4>
-      <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-4">
+      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-2 sm:mb-4">
         Watch how the actual win percentages converge to the theoretical values as more games are played. 
         The logarithmic X-axis scale highlights early convergence behavior.
       </p>
@@ -33,10 +33,10 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
             bottom: 40,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" className="dark:opacity-20" />
           <XAxis 
             dataKey="gameNumber" 
-            stroke="#666"
+            stroke="#999"
             tick={{ fontSize: 10 }}
             scale="log"
             domain={['dataMin', 'dataMax']}
@@ -49,7 +49,7 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
             }}
           />
           <YAxis 
-            stroke="#666"
+            stroke="#999"
             tick={{ fontSize: 10 }}
             domain={[0, 100]}
             label={{ value: 'Win Percentage (%)', angle: -90, position: 'insideLeft', style: { fontSize: 11, textAnchor: 'middle' } }}
@@ -110,15 +110,15 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
         </LineChart>
       </ResponsiveContainer>
 
-      <div className="mt-2 sm:mt-4 text-xs text-gray-500">
+      <div className="mt-2 sm:mt-4 text-xs text-gray-500 dark:text-gray-400">
         <p>
-          • <span className="text-blue-600 font-semibold">Blue line</span>: Actual stay strategy performance
+          • <span className="text-blue-600 dark:text-blue-400 font-semibold">Blue line</span>: Actual stay strategy performance
         </p>
         <p>
-          • <span className="text-orange-600 font-semibold">Orange line</span>: Actual switch strategy performance
+          • <span className="text-orange-600 dark:text-orange-400 font-semibold">Orange line</span>: Actual switch strategy performance
         </p>
         <p>
-          • <span className="text-gray-400 font-semibold">Dashed lines</span>: Theoretical probabilities (33.3% and 66.7%)
+          • <span className="text-gray-400 dark:text-gray-500 font-semibold">Dashed lines</span>: Theoretical probabilities (33.3% and 66.7%)
         </p>
         <p className="mt-2 text-xs">
           Note: The X-axis uses a logarithmic scale to better show early convergence patterns.
