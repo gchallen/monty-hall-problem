@@ -25,7 +25,7 @@ This application uses a separated frontend and backend architecture:
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 24.4.1+
 - MongoDB (optional, for persistence)
 
 ### Quick Start

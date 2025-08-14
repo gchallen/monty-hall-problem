@@ -124,7 +124,7 @@ export default function BulkSimulator({ onSimulationComplete }: BulkSimulatorPro
           <div className="mt-6">
             <ConvergenceGraph 
               data={lastSimulation.convergenceData} 
-              totalGames={lastSimulation.count * 2}
+              totalGames={lastSimulation.count}
             />
           </div>
         </div>
