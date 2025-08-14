@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
+    "k8s:edit": "kubectl config use-context geoffreychallen && kubectl edit deployment demos-geoffreychallen-com-monty-hall-problem-deployment",
     "k8s:logs": "kubectl config use-context geoffreychallen && kubectl logs -f --tail=-1 -l app=demos-geoffreychallen-com-monty-hall-problem --all-containers",
     "k8s:restart": "kubectl config use-context geoffreychallen && kubectl rollout restart deployment demos-geoffreychallen-com-monty-hall-problem-deployment",
     "test": "jest",
