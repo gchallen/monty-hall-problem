@@ -32,35 +32,33 @@ export function simulateBulkGames(count: number): BulkSimulationResult {
   const recordInterval = Math.max(1, Math.floor(count / 100))
 
   for (let i = 0; i < count; i++) {
-    // Simulate a "stay" strategy game
-    const stayGame = createNewGame()
-    const stayInitialChoice = Math.floor(Math.random() * 3)
-    const stayHostReveal = makeInitialChoice(stayGame, stayInitialChoice)
-    const stayFinal = makeFinalChoice(stayHostReveal, stayInitialChoice)
+    const game = createNewGame()
+    const initialChoice = Math.floor(Math.random() * 3)
+    const hostReveal = makeInitialChoice(game, initialChoice)
     
-    stats.stayTotal++
     stats.totalGames++
+    
+    // Calculate both stay and switch outcomes for this single game
+    // Stay with original choice
+    const stayFinal = makeFinalChoice(hostReveal, initialChoice)
+    stats.stayTotal++
     if (stayFinal.playerWon) {
       stats.stayWins++
     }
-
-    // Simulate a "switch" strategy game
-    const switchGame = createNewGame()
-    const switchInitialChoice = Math.floor(Math.random() * 3)
-    const switchHostReveal = makeInitialChoice(switchGame, switchInitialChoice)
     
-    // Find the door to switch to
-    const availableDoor = switchHostReveal.doors.find(
-      door => door.id !== switchInitialChoice && !door.isOpen
+    // Switch to the other available door
+    const availableDoor = hostReveal.doors.find(
+      door => door.id !== initialChoice && !door.isOpen
     )
     
-    if (availableDoor) {
-      const switchFinal = makeFinalChoice(switchHostReveal, availableDoor.id)
-      stats.switchTotal++
-      stats.totalGames++
-      if (switchFinal.playerWon) {
-        stats.switchWins++
-      }
+    if (!availableDoor) {
+      throw new Error('No available door to switch to - this should never happen in Monty Hall')
+    }
+    
+    const switchFinal = makeFinalChoice(hostReveal, availableDoor.id)
+    stats.switchTotal++
+    if (switchFinal.playerWon) {
+      stats.switchWins++
     }
 
     // Record convergence data at intervals or at the end

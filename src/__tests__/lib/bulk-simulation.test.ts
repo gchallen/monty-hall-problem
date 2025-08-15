@@ -3,7 +3,7 @@ import { simulateBulkGames } from '@/lib/bulk-simulation'
 describe('Bulk Simulation', () => {
   it('should simulate the correct number of games', () => {
     const result = simulateBulkGames(100)
-    expect(result.stats.totalGames).toBe(200) // 100 stay + 100 switch
+    expect(result.stats.totalGames).toBe(100) // 100 games tested with both strategies
     expect(result.stats.stayTotal).toBe(100)
     expect(result.stats.switchTotal).toBe(100)
   })
