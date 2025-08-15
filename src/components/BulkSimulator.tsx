@@ -93,7 +93,7 @@ export default function BulkSimulator({ onSimulationComplete }: BulkSimulatorPro
                 {calculateWinPercentage(lastSimulation.stats.stayWins, lastSimulation.stats.stayTotal)}%
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                {lastSimulation.stats.stayWins.toLocaleString()} wins / {lastSimulation.stats.stayTotal.toLocaleString()} games
+                {lastSimulation.stats.stayWins.toLocaleString()} wins / {lastSimulation.stats.totalGames.toLocaleString()} games
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                 Theoretical: 33.3%
@@ -106,7 +106,7 @@ export default function BulkSimulator({ onSimulationComplete }: BulkSimulatorPro
                 {calculateWinPercentage(lastSimulation.stats.switchWins, lastSimulation.stats.switchTotal)}%
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                {lastSimulation.stats.switchWins.toLocaleString()} wins / {lastSimulation.stats.switchTotal.toLocaleString()} games
+                {lastSimulation.stats.switchWins.toLocaleString()} wins / {lastSimulation.stats.totalGames.toLocaleString()} games
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                 Theoretical: 66.7%

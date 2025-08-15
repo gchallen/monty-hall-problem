@@ -9,7 +9,8 @@ export default function Footer() {
 
   useEffect(() => {
     // Fetch initial server uptime
-    fetch('/api/uptime')
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+    fetch(`${basePath}/api/uptime`)
       .then(res => res.json())
       .then(data => {
         setServerStartTime(data.startTime)
