@@ -59,8 +59,7 @@ export default function ConvergenceGraph({ data, totalGames }: ConvergenceGraphP
               `${value.toFixed(1)}%`, 
               name === 'stayPercentage' ? 'Stay Strategy' :
               name === 'switchPercentage' ? 'Switch Strategy' :
-              name === 'theoreticalStay' ? 'Theoretical Stay' :
-              'Theoretical Switch'
+              name
             ]}
             labelFormatter={(label) => `After ${label} games`}
             contentStyle={{
