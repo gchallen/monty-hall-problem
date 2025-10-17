@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1
 
-FROM node:24.4.1-alpine AS base
+FROM oven/bun:1.2.23-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -8,8 +8,8 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json package-lock.json* ./
-RUN npm ci
+COPY package.json bun.lockb* ./
+RUN bun install --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -18,10 +18,10 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build the Next.js application
-RUN npm run build
+RUN bun run build
 
 # Production image, copy all the files and run the custom server
-FROM base AS runner
+FROM node:24.10.0-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production

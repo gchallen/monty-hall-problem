@@ -3,47 +3,46 @@
   "version": "2025.8.2",
   "private": true,
   "scripts": {
-    "dev": "node server.js",
+    "dev": "bun run server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "NODE_ENV=production bun run server.js",
     "lint": "next lint",
     "k8s:edit": "kubectl config use-context geoffreychallen && kubectl edit deployment demos-geoffreychallen-com-monty-hall-problem-deployment",
     "k8s:logs": "kubectl config use-context geoffreychallen && kubectl logs -f --tail=-1 -l app=demos-geoffreychallen-com-monty-hall-problem --all-containers",
     "k8s:restart": "kubectl config use-context geoffreychallen && kubectl rollout restart deployment demos-geoffreychallen-com-monty-hall-problem-deployment",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
     "docker:build": "docker build -t monty-hall-problem .",
     "docker:run": "docker run -p 3000:3000 monty-hall-problem",
-    "docker:dev": "npm run docker:build && npm run docker:run",
+    "docker:dev": "bun run docker:build && bun run docker:run",
     "docker:push": "docker buildx build --platform linux/amd64,linux/arm64 -t geoffreychallen/monty-hall-problem:latest -t geoffreychallen/monty-hall-problem:$npm_package_version . --push",
-    "ncu": "npx npm-check-updates"
+    "ncu": "bunx npm-check-updates"
   },
   "dependencies": {
-    "mongodb": "6.18.0",
-    "next": "15.5.0",
-    "react": "19.1.1",
-    "react-dom": "19.1.1",
-    "recharts": "3.1.2",
+    "mongodb": "6.20.0",
+    "next": "15.5.6",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "recharts": "3.3.0",
     "socket.io": "4.8.1",
     "socket.io-client": "4.8.1",
     "zod": "3.25.76"
   },
   "engines": {
-    "node": ">=24.4.1"
+    "bun": ">=1.2.23"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "6.8.0",
+    "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.0",
-    "@types/node": "24.3.0",
-    "@types/react": "18.3.23",
+    "@types/node": "24.8.1",
+    "@types/react": "18.3.26",
     "@types/react-dom": "18.3.7",
     "autoprefixer": "10.4.21",
-    "eslint": "9.33.0",
-    "eslint-config-next": "15.5.0",
-    "jest": "30.0.5",
-    "jest-environment-jsdom": "30.0.5",
+    "eslint": "9.37.0",
+    "eslint-config-next": "15.5.6",
+    "happy-dom": "20.0.4",
     "postcss": "8.5.6",
-    "tailwindcss": "3.4.17",
-    "typescript": "5.9.2"
+    "tailwindcss": "3.4.18",
+    "typescript": "5.9.3"
   }
 }
