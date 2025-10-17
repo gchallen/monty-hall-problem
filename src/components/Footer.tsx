@@ -79,8 +79,21 @@ Prepare for deployment to Vercel.`}
               </p>
             </blockquote>
           </div>
-          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-3">
             The interactive graph and ability to simulate many games were added later after a few more short interactions with Claude Code.
+            Because the site uses a WebSocket, it was ultimately not deployed to Vercel.
+          </p>
+          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 italic">
+            Thanks to{' '}
+            <a
+              href="https://waf.cs.illinois.edu/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-illinois-blue dark:text-blue-400 hover:text-illinois-blue/80 dark:hover:text-blue-300 font-semibold transition-colors"
+            >
+              my colleague
+            </a>
+            {' '}for the challenge.
           </p>
         </div>
 
