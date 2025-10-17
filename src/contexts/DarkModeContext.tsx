@@ -10,15 +10,16 @@ interface DarkModeContextType {
 const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined)
 
 export function DarkModeProvider({ children }: { children: ReactNode }) {
-  const [darkMode, setDarkMode] = useState(() => {
-    // Initialize from document class (which was set by the blocking script)
-    if (typeof window !== 'undefined') {
-      return document.documentElement.classList.contains('dark')
-    }
-    return false
-  })
+  // Start with false to match SSR, will sync immediately on client
+  const [darkMode, setDarkMode] = useState(false)
+  const [isInitialized, setIsInitialized] = useState(false)
 
   useEffect(() => {
+    // Immediately sync with the class that was set by the blocking script
+    const hasDarkClass = document.documentElement.classList.contains('dark')
+    setDarkMode(hasDarkClass)
+    setIsInitialized(true)
+
     // Listen for system preference changes only if no saved preference
     const savedMode = localStorage.getItem('darkMode')
     if (savedMode === null) {
@@ -34,6 +35,11 @@ export function DarkModeProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
+    // Skip the initial render - only update when user toggles or system preference changes
+    if (!isInitialized) {
+      return
+    }
+
     // Update document class and localStorage when dark mode changes
     if (darkMode) {
       document.documentElement.classList.add('dark')
@@ -41,7 +47,7 @@ export function DarkModeProvider({ children }: { children: ReactNode }) {
       document.documentElement.classList.remove('dark')
     }
     localStorage.setItem('darkMode', darkMode.toString())
-  }, [darkMode])
+  }, [darkMode, isInitialized])
 
   const toggleDarkMode = () => {
     setDarkMode(prev => !prev)

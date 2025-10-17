@@ -10,28 +10,24 @@ export const metadata: Metadata = {
   description: 'Interactive simulation of the Monty Hall problem with college acceptance theme',
 }
 
+const themeScript = `
+  (function() {
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode === 'true' || (savedMode === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+`
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                const savedMode = localStorage.getItem('darkMode');
-                if (savedMode === 'true' || (savedMode === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.documentElement.classList.add('dark');
-                }
-              })();
-            `,
-          }}
-        />
-      </head>
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <DarkModeProvider>
           {children}
         </DarkModeProvider>
