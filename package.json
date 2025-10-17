@@ -1,6 +1,6 @@
 {
   "name": "monty-hall-problem",
-  "version": "2025.10.1",
+  "version": "2025.10.0",
   "private": true,
   "scripts": {
     "dev": "bun run server.js",
@@ -15,6 +15,7 @@
     "docker:build": "docker build -t monty-hall-problem .",
     "docker:run": "docker run -p 3000:3000 monty-hall-problem",
     "docker:dev": "bun run docker:build && bun run docker:run",
+    "docker:buildAndPush": "docker buildx build --platform linux/amd64,linux/arm64 -t geoffreychallen/monty-hall-problem:latest -t geoffreychallen/monty-hall-problem:$npm_package_version . --push",
     "docker:push": "docker buildx build --platform linux/amd64,linux/arm64 -t geoffreychallen/monty-hall-problem:latest -t geoffreychallen/monty-hall-problem:$npm_package_version . --push",
     "ncu": "bunx npm-check-updates"
   },
