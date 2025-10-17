@@ -7,10 +7,16 @@ interface DoorProps {
   onClick: () => void
   disabled: boolean
   showContent: boolean
+  initialChoice: number | null
+  finalChoice: number | null
 }
 
-export default function Door({ door, onClick, disabled, showContent }: DoorProps) {
+export default function Door({ door, onClick, disabled, showContent, initialChoice, finalChoice }: DoorProps) {
   const isClickable = !disabled && !door.isOpen
+
+  const isFirstChoice = initialChoice === door.id
+  const isSecondChoice = finalChoice === door.id
+  const showChoiceIndicator = isFirstChoice || isSecondChoice
 
   return (
     <div
@@ -49,9 +55,15 @@ export default function Door({ door, onClick, disabled, showContent }: DoorProps
         )}
       </div>
 
-      {door.isSelected && (
-        <div className="absolute -top-2 -right-2 bg-illinois-orange text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">
-          ✓
+      {showChoiceIndicator && (
+        <div className="absolute -top-2 -right-2 bg-illinois-orange text-white rounded-full px-2 py-1 flex items-center justify-center text-xs font-bold min-w-[1.5rem] h-6">
+          {isFirstChoice && isSecondChoice ? (
+            <span>1 2</span>
+          ) : isFirstChoice ? (
+            <span>1</span>
+          ) : (
+            <span>2</span>
+          )}
         </div>
       )}
     </div>

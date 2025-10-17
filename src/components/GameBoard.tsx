@@ -111,6 +111,8 @@ export default function GameBoard() {
                 onClick={() => handleDoorClick(door.id)}
                 disabled={!canClickDoor(door.id)}
                 showContent={gameState.phase === 'game-over'}
+                initialChoice={gameState.initialChoice}
+                finalChoice={gameState.finalChoice}
               />
             ))}
           </div>

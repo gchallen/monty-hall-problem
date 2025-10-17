@@ -1,6 +1,6 @@
 {
   "name": "monty-hall-problem",
-  "version": "2025.10.0",
+  "version": "2025.10.1",
   "private": true,
   "scripts": {
     "dev": "bun run server.js",
