@@ -93,7 +93,7 @@ Prepare for deployment to Vercel.`}
             >
               my colleague
             </a>
-            {' '}for the challenge.
+            {' '}for the idea and the challenge to do it using AI.
           </p>
         </div>
 
