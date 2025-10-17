@@ -83,7 +83,7 @@ Prepare for deployment to Vercel.`}
             The interactive graph and ability to simulate many games were added later after a few more short interactions with Claude Code.
             Because the site uses a WebSocket, it was ultimately not deployed to Vercel.
           </p>
-          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 italic">
+          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
             Thanks to{' '}
             <a
               href="https://waf.cs.illinois.edu/"
