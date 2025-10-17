@@ -79,7 +79,7 @@ Prepare for deployment to Vercel.`}
               </p>
             </blockquote>
           </div>
-          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 text-center">
+          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
             The interactive graph and ability to simulate many games were added later after a few more short interactions with Claude Code.
           </p>
         </div>
