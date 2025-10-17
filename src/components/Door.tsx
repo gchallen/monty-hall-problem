@@ -38,7 +38,7 @@ export default function Door({ door, onClick, disabled, showContent }: DoorProps
               <div className="flex flex-col items-center">
                 <div className="text-2xl sm:text-3xl md:text-4xl mb-1 sm:mb-2">🏫</div>
                 <div className="text-xs sm:text-sm font-bold text-purdue-black dark:text-gray-100">Purdue</div>
-                <div className="text-xs text-green-600 dark:text-green-400">Acceptance</div>
+                <div className="text-xs text-red-600 dark:text-red-400">Acceptance</div>
               </div>
             )}
           </div>
