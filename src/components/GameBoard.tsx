@@ -84,13 +84,13 @@ export default function GameBoard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-illinois-blue to-purdue-black dark:from-gray-800 dark:to-gray-900 p-8 transition-colors">
+    <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 p-8 transition-colors">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white dark:text-gray-100 mb-4">
+          <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-4">
             The Monty Hall Problem: Illinois vs Purdue Edition
           </h1>
-          <p className="text-lg text-gray-200 dark:text-gray-200 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-200 max-w-2xl mx-auto">
             Behind one door is acceptance to the University of Illinois, behind the other two are Purdue acceptances. 
             Choose wisely and see if switching doors really improves your odds!
           </p>

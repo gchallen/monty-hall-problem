@@ -10,23 +10,24 @@ interface DarkModeContextType {
 const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined)
 
 export function DarkModeProvider({ children }: { children: ReactNode }) {
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(() => {
+    // Initialize from document class (which was set by the blocking script)
+    if (typeof window !== 'undefined') {
+      return document.documentElement.classList.contains('dark')
+    }
+    return false
+  })
 
   useEffect(() => {
-    // Check localStorage first
+    // Listen for system preference changes only if no saved preference
     const savedMode = localStorage.getItem('darkMode')
-    if (savedMode !== null) {
-      setDarkMode(savedMode === 'true')
-    } else {
-      // Fall back to system preference
+    if (savedMode === null) {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-      setDarkMode(mediaQuery.matches)
-      
-      // Listen for system preference changes
+
       const handleChange = (e: MediaQueryListEvent) => {
         setDarkMode(e.matches)
       }
-      
+
       mediaQuery.addEventListener('change', handleChange)
       return () => mediaQuery.removeEventListener('change', handleChange)
     }
